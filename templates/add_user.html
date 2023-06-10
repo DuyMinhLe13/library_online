@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+ 
+{% block content %}
+<h1 class="page-header text-center">Sign up</h1>
+<form action="/add_user" method="post">
+    <div class="mb-3">
+        <label>Email</label>
+        <input type = "email" name = "email" placeholder = "Email" class="form-control" value="{{email}}" required/>
+    </div> 
+    <div class="mb-3">
+        <label>Account</label>
+        <input type = "text" name = "account" placeholder = "Name" class="form-control" value="{{account}}" required/>
+    </div> 
+    <div class="mb-3">
+        <label>Password</label>
+        <input type = "password" name = "password" placeholder = "password" class="form-control" value="{{password}}" required/>
+    </div> 
+
+    <p class="text-danger">{{message}}</p>
+    <input type = "submit" value = "Sign up" class="btn btn-primary mb-3"/> 
+    <a href="/login" class="btn btn-primary mb-3">Return</a> 
+</form> 
+{% endblock content %}

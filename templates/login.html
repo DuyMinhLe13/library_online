@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+ 
+{% block content %}
+<h1 class="page-header text-center">Login</h1>
+<form action="/login" method="post">
+    <div class="mb-3">
+        <label>Account</label>
+        <input type = "text" name = "account" placeholder = "Name" class="form-control" value="{{account}}" required/>
+    </div> 
+    <div class="mb-3">
+        <label>Password</label>
+        <input type = "password" name = "password" placeholder = "password" class="form-control" value="{{password}}" required/>
+    </div> 
+
+    <div class="form-check">
+        <input class="form-check-input" type="radio" name="role" id="admin" value="admin">
+        <label class="form-check-label" for="admin">
+            Admin
+        </label>
+        </div>
+    <div class="form-check">
+        <input class="form-check-input" type="radio" name="role" id="user" value="user" checked>
+        <label class="form-check-label" for="user">
+            User
+        </label>
+    </div>
+    <p class="text-danger">{{message}}</p>
+    <input type = "submit" value = "Login" class="btn btn-primary mb-3"/>  
+    <a href="/add_user" class="btn btn-primary mb-3">Sign up</a> 
+    <a href="/" class="btn btn-primary mb-3">Return</a>
+</form> 
+{% endblock content %}

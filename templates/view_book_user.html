@@ -1,0 +1,174 @@
+{% extends 'base.html' %}
+ 
+{% block content %}
+<h1 class="page-header text-center">View Book</h1>
+<style>
+.rate{
+border-bottom-right-radius: 12px;
+border-bottom-left-radius: 12px;
+}
+
+.rating {
+display: flex;
+flex-direction: row-reverse;
+justify-content: center
+}
+
+.rating>input {
+display: none
+}
+
+.rating>label {
+position: relative;
+width: 1em;
+font-size: 30px;
+font-weight: 300;
+color: #FFD600;
+cursor: pointer
+}
+
+.rating>label::before {
+content: "\2605";
+position: absolute;
+opacity: 0
+}
+
+.rating>label:hover:before,
+.rating>label:hover~label:before {
+opacity: 1 !important
+}
+
+.rating>input:checked~label:before {
+opacity: 1
+}
+
+.rating:hover>input:checked~label:before {
+opacity: 0.4
+}
+
+</style>
+<form action="/order_book/{{user_acc}}/{{book.id}}" method="post">
+    <footer class="bg-light text-center text-lg-start">
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <div class="container">
+                    <div class="row">
+                        <div class="col">
+                            <label class="fw-bold">Tiêu đề *</label>
+                            <input type = "text" name = "name" class="form-control" value="{{book.name}}" required disabled/>
+                        </div>
+                        <div class="col">
+                            <label class="fw-bold">Tác giả *</label>
+                            <input type = "text" name = "author" class="form-control" value="{{book.author}}" required disabled/>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <label class="fw-bold">Mô tả về sách</label>
+                            <textarea type = "text" name = "description" class="form-control"
+                            style="height:150px" disabled>{{book.description}}</textarea>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <label class="fw-bold">Ngày phát hành *</label>
+                            <input type = "number" name = "date" class="form-control" 
+                            placeholder="YYYY-MM-DD" value="{{book.date}}" required disabled/>
+                        </div>
+                        <div class="col">
+                            <label class="fw-bold">Số trang</label>
+                            <input type = "number" name = "pages" value="{{book.pages}}" class="form-control" disabled/>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <label class="fw-bold">Thể loại</label>
+                            <select class="form-select" name="category" disabled>
+                                <option selected>{{book.category}}</option>
+                                <option value="Science">Science</option>
+                                <option value="Magic">Magic</option>
+                                <option value="Detective">Detective</option>
+                                <option value="Horror">Horror</option>
+                                <option value="Tutorial">Tutorial</option>
+                            </select>
+                        </div>
+                        <div class="col"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="d-flex justify-content-center">
+                    <img id="uploaded-image" src="{{ url_for('static', path = book.cover + '.jpg') }}" 
+                    alt="Uploaded Image" style="max-width: 250px; max-height: 250px;">
+                </div>
+                <div class="d-flex justify-content-center">
+                <label class="fw-bold text-decoration-underline fs-3">Số lượng đặt mua</label>
+                </div>
+                <input type = "number" min="1" step="1" name = "order" class="form-control text-center fs-5 fw-bold" onkeypress="return event.keyCode === 8 || event.charCode >= 48 && event.charCode <= 57" required/> 
+                <p class="text-danger">{{message}}</p>
+
+                <!-- Button trigger modal -->
+                <button type="button" class="btn btn-primary mb-3 float-end" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                    Đặt mua
+                </button>
+                
+                <!-- Modal -->
+                <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Cảnh báo</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                        Bạn có muốn đặt mua quyển sách này không ?
+                        </div>
+                        <div class="modal-footer">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                    <input type = "submit" value = "Đặt mua" class="btn btn-primary mb-3 float-end"/>
+                                </div>
+                            </div>
+                        </div>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+                <!--End Button-->  
+            </div>
+        </div>
+        
+    </div>
+    <br>
+    </footer>
+</form>
+<form id="CommentForm" action="/comment_book/{{user_acc}}/{{book.id}}" method="post">
+    <div class="container">
+    <div class="row">
+    <div class="col">
+    <div class="d-flex justify-content-center"><label class="fw-bold fs-5">Đánh giá</label></div>
+    <div class="rating"> <input type="radio" name="rating" value="5" id="5" form="CommentForm"><label for="5">☆</label> <input type="radio" name="rating" value="4" id="4" form="CommentForm"><label for="4">☆</label> <input type="radio" name="rating" value="3" id="3" form="CommentForm"><label for="3">☆</label> <input type="radio" name="rating" value="2" id="2" form="CommentForm"><label for="2">☆</label> <input type="radio" name="rating" value="1" id="1" form="CommentForm"><label for="1">☆</label></div>
+    <div class="d-flex justify-content-center"><label class="fw-bold fs-5">Nhận xét</label></div>
+    <textarea type = "text" name = "comment" class="form-control"
+    style="height:50px" ></textarea>
+    <br>
+    <footer class="bg-light text-center text-lg-start" style="border-top: 3px solid #000">
+    <br>
+    <a href="/home_user/{{user_acc}}" class="btn btn-primary">Return</a>
+    <input type = "submit" value = "Gửi đánh giá" class="btn btn-primary mb-3 float-end" form="CommentForm"/>
+    </footer>
+    </div>
+    </div>
+    </div>
+</form>
+<script>
+
+    // rating stars
+    const ratings = document.getElementById('rating1'); const rating1 = new CDB.Rating(ratings);
+    rating1.getRating;
+</script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.min.js" integrity="sha384-j0CNLUeiqtyaRmlzUHCPZ+Gy5fQu0dQ6eZ/xAww941Ai1SxSY+0EQqNXNE6DZiVc" crossorigin="anonymous"></script>
+{% endblock content %}

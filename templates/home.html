@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+ 
+{% block content %}
+<h1 class="page-header text-center">Library</h1>
+<div class="row">
+    <div class="col-12">
+        <a href="/login" class="btn btn-primary">Login</a>
+        <br><br>
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>Tiêu đề</th>
+                    <th>Tác giả</th>
+                    <th>Thể loại</th>
+                    <th>Ngày phát hành</th>
+                    <th>Số trang</th>
+                    <th>Số lượng đã bán</th>
+                    <th width="200">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for book in books %}
+                    <tr>
+                        <td>{{ book.name }}</td>
+                        <td>{{ book.author }}</td>
+                        <td>{{ book.category }}</td>
+                        <td>{{ book.date }}</td>
+                        <td>{{ book.pages }}</td>
+                        <td>{{ book.sold }}</td>
+                        <td></td>
+                    </tr>
+                {% endfor %}    
+            </tbody>
+        </table>
+    </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.min.js" integrity="sha384-j0CNLUeiqtyaRmlzUHCPZ+Gy5fQu0dQ6eZ/xAww941Ai1SxSY+0EQqNXNE6DZiVc" crossorigin="anonymous"></script>
+{% endblock content %}

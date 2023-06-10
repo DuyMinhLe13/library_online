@@ -1,0 +1,85 @@
+{% extends 'base.html' %}
+ 
+{% block content %}
+<h1 class="page-header text-center">View Book</h1>
+<form>
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <div class="container">
+                    <div class="row">
+                        <div class="col">
+                            <label class="fw-bold">Tiêu đề *</label>
+                            <input type = "text" name = "name" class="form-control" value="{{book.name}}" required disabled/>
+                        </div>
+                        <div class="col">
+                            <label class="fw-bold">Tác giả *</label>
+                            <input type = "text" name = "author" class="form-control" value="{{book.author}}" required disabled/>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <label class="fw-bold">Mô tả về sách</label>
+                            <textarea type = "text" name = "description" class="form-control"
+                            style="height:360px" disabled>{{book.description}}</textarea>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <label class="fw-bold">Ngày phát hành *</label>
+                            <input type = "text" name = "date" class="form-control" 
+                            placeholder="YYYY-MM-DD" value="{{book.date}}" required disabled/>
+                        </div>
+                        <div class="col">
+                            <label class="fw-bold">Số trang</label>
+                            <input type = "text" name = "pages" value="{{book.pages}}" class="form-control" disabled/>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <label class="fw-bold">Thể loại</label>
+                            <select class="form-select" name="category" disabled>
+                                <option selected>{{book.category}}</option>
+                            </select>
+                        </div>
+                        <div class="col"></div>
+                    </div>
+                    <div class="row"><p class="text-danger"></p></div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="d-flex justify-content-center">
+                    <img id="uploaded-image" src="{{ url_for('static', path = book.cover + '.jpg') }}" 
+                    alt="Uploaded Image" style="max-width: 500px; max-height: 500px;">
+                </div>
+                <div class="input-group custom-file-button">
+                    <label class="input-group-text fw-bold border border-dark border-2" for="inputGroupFile">Upload Image</label>
+                    <input type="file" class="form-control border border-dark" id="inputGroupFile" disabled>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br>
+    <footer class="bg-light text-center text-lg-start" style="border-top: 3px solid #000">
+    <br>
+    <a href="/home_admin" class="btn btn-primary">Return</a>
+    <a href="/edit_book_admin/{{ book.id }}" class="btn btn-primary mb-3 float-end">Edit</a>
+    </footer>
+</form>
+<script>
+
+    const inputField = document.getElementById("inputGroupFile");
+    const imageElement = document.getElementById("uploaded-image");
+
+    inputField.addEventListener("change", function() {
+    const file = this.files[0];
+    const reader = new FileReader();
+
+    reader.addEventListener("load", function() {
+        imageElement.setAttribute("src", this.result);
+    });
+
+    reader.readAsDataURL(file);
+    });
+</script>
+{% endblock content %}
